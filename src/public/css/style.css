@@ -1,0 +1,109 @@
+/* 全体のスタイル */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  /* ヘッダー */
+  header {
+    background-color: #35424a;
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin: 0;
+  }
+  
+  /* ナビゲーション */
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  /* メインコンテンツ */
+  main {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* フォーム */
+  form {
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #35424a;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2c3e50;
+  }
+  
+  /* Todoリスト */
+  #todo-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #todo-list li {
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  /* フッター */
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #35424a;
+    color: #ffffff;
+  }
+
+
+  ul { 
+    list-style-type: none; padding: 0; 
+  }
+
+ 
+  li.completed { 
+    text-decoration: line-through; color: #888; 
+  }
+  
+

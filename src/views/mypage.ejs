@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ - Todoリスト</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        #todoList { list-style-type: none; padding: 0; }
+        #todoList li { margin-bottom: 10px; }
+        .completed { text-decoration: line-through; color: #888; }
+    </style>
+</head>
+<body>
+    <h1 id="welcomeMessage">ようこそ、<%= username %>さん！</h1>
+    <a href="/admin">管理者画面</a>
+    <a href="/logout">ログアウト</a>
+
+    <h2>Todoリスト</h2>
+    <form id="todoForm">
+        <input type="text" id="todoInput" placeholder="新しいTodoを入力" required>
+        <button type="submit">追加</button>
+    </form>
+
+    <ul id="todoList"></ul>
+
+    <script>
+    // ユーザー名の設定
+    const userString = localStorage.getItem('user');
+    
+    const userObject = JSON.parse(userString);
+    if (userString) {
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        welcomeMessage.textContent = `ようこそ、${userObject.username}さん！`;
+    }
+
+    const todoList = document.getElementById('todoList');
+    const todoForm = document.getElementById('todoForm');
+    const todoInput = document.getElementById('todoInput');
+
+    // APIエンドポイント
+    const API_URL = '/api/todos';
+
+    // Todoの表示
+    async function fetchAndRenderTodos() {
+        try {
+            console.log("fetchAndRenderTodos");
+            const userString = localStorage.getItem('user');
+            const userObject = JSON.parse(userString);
+            const id = userObject.id;
+            console.log("userId",id);
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'GET',
+               });
+               if (response.ok) {
+             console.log("response",response);
+            const responseData = await response.json();
+            console.log("responseData",responseData);
+               
+            todoList.innerHTML = '';
+            
+            const todos = responseData.todos;
+            
+            console.log(typeof todos)
+    
+            
+            Object.keys(todos).forEach(function (key) {
+             console.log(todos[key]);
+             const li = document.createElement('li');
+                 li.innerHTML = `
+                    <span>${todos[key].description}</span>
+                      <button onclick="editTodo(${todos[key].userId})">編集</button>
+                      <button onclick="deleteTodo(${todos[key].userId})">削除</button>
+                  `;
+                 todoList.appendChild(li);
+             });
+               }
+        } catch (error) {
+            console.error('Todoの取得に失敗しました:', error);
+        }
+    }
+
+
+    // 新規Todo追加
+    todoForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const todoText = todoInput.value.trim();
+        const userString = localStorage.getItem('user');
+        const userObject = JSON.parse(userString);
+        console.log(userString);
+
+        if (todoText) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ description: todoText, userId: userObject.id }),
+                });
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+
+                const responseData = await response.json();
+                console.log('Response data:', responseData);
+                if (responseData) {
+                    todoInput.value = '';
+                    console.log('Todoの追加に成功しました:',);
+                    fetchAndRenderTodos(responseData);
+                }
+            } catch (error) {
+                console.error('Todoの追加に失敗しました:', error);
+            }
+            }
+    });
+
+    // Todo編集
+    async function editTodo(id) {
+        const newText = prompt('Todoを編集');
+        if (newText !== null) {
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: newText.trim() }),
+                });
+                if (response.ok) {
+                    fetchAndRenderTodos();
+                }
+            } catch (error) {
+                console.error('Todoの編集に失敗しました:', error);
+            }
+        }
+    }
+
+    // Todo削除
+    async function deleteTodo(id) {
+        
+        if (confirm('このTodoを削除しますか？')) {
+            try {
+                console.log("id",id);
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                });
+                if (response.ok) {
+                    fetchAndRenderTodos();
+                }
+            } catch (error) {
+                console.error('Todoの削除に失敗しました:', error);
+            }
+        }
+    }
+
+    // 初期表示
+    fetchAndRenderTodos();
+    </script>
+</body>
+</html>

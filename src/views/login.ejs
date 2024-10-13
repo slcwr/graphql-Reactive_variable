@@ -1,0 +1,10 @@
+<%- include('layout', { body: `
+    <h1>ログイン</h1>
+    <form id="loginForm">
+        <input type="text" name="username" id="username" placeholder="ユーザー名" required>
+        <input type="password" name="password" id="password" placeholder="パスワード" required>
+        <button type="submit">ログイン</button>
+    </form>
+    <div id="message"></div>
+    <script src="/js/login.js"></script>
+` }) %>

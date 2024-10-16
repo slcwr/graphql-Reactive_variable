@@ -17,10 +17,17 @@ export class Todo {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @ManyToOne(() => Users, user => user.todos)
+    // @ManyToOne(() => Users, user => user.todos)
+    // @JoinColumn({ name: "userId" })
+    // user: Users;
+
+    @ManyToOne(() => Users, user => user.todos, { onDelete: 'CASCADE' })
     @JoinColumn({ name: "userId" })
     user: Users;
 
     @Column({ type: "int" })
     userId: number;
+
+ 
 }
+

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "types": ["node", "jest", "@testcontainers/postgresql"]
     "experimentalDecorators": true,
-    "target": "ES2020",
-    "module": "ESNext",
+    "target": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "sourceMap": true,

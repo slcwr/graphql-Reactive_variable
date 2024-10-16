@@ -15,6 +15,7 @@
 	  }
 	},
 	"features": {
+	  "ghcr.io/devcontainers/features/docker-in-docker:2": {},
 	  "ghcr.io/devcontainers/features/node:1": {
     "version": "18"
     },
@@ -22,6 +23,11 @@
 		"version": "latest"
 	  }
 	},
+	"remoteEnv": {
+    "TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE": "/var/run/docker.sock",
+    "DOCKER_HOST": "unix:///var/run/docker.sock"
+   },
+
 	"forwardPorts": [3000, 5432],
 	"postCreateCommand": "npm install",
 	"remoteUser": "node"

@@ -1,60 +1,104 @@
-import "reflect-metadata";
-import express from 'express'
-import { Request, Response, NextFunction } from 'express'
-import { getConnection, initializeDatabase } from "./data-source.js";
-import authRoutes from './routes/auth.js'
-import { authMiddleware,  AuthenticatedRequest } from './middleware/auth.js'
+import express from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { PrismaClient } from '@prisma/client';
+import { buildSchema } from 'type-graphql';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createConnection } from "typeorm";
-import cookieParser from 'cookie-parser';
-import mypageRoutes from './routes/auth';
-import cors from 'cors';
+import { authMiddleware, AuthenticatedRequest } from './middleware/auth.js';
 
-dotenv.config();
-const app = express()
-// CORS設定
-app.use(cors({
-    origin: 'http://localhost:3000', // フロントエンドのURLに合わせて変更
-    credentials: true
-  }));
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// Resolversのインポート
+import { UserResolver } from './resolvers/User.resolver';
+import { TodoResolver } from './resolvers/Todo.resolver';
 
+// Prismaクライアントのインスタンス化
+const prisma = new PrismaClient();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Context型の定義
+interface Context {
+  prisma: PrismaClient;
+  req: AuthenticatedRequest;
+  res: express.Response;
+}
 
 async function startServer() {
-try {
-    await initializeDatabase();
+  try {
+    dotenv.config();
+    const app = express();
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
 
+    // ミドルウェアの設定
+    app.use(cors({
+      origin: 'http://localhost:3000',
+      credentials: true
+    }));
+    app.use(cookieParser());
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
 
-app.use(mypageRoutes);
+    // GraphQLスキーマの構築
+    const schema = await buildSchema({
+      resolvers: [UserResolver, TodoResolver],
+      validate: false,
+    });
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-dotenv.config();
+    // ApolloServerの設定
+    const server = new ApolloServer<Context>({
+      schema,
+      formatError: (error) => {
+        console.error(error);
+        return error;
+      },
+    });
 
-app.use('/', authRoutes)
-app.use('/api', authRoutes);
-app.get('/', (req, res) => {
-    res.render('index');
+    // ApolloServerの起動
+    await server.start();
+
+    // GraphQLエンドポイントの設定
+    app.use(
+      '/graphql',
+      expressMiddleware(server, {
+        context: async ({ req, res }) => ({
+          prisma,
+          req: req as AuthenticatedRequest,
+          res,
+        }),
+      })
+    );
+
+    // 静的ファイルとビューの設定
+    app.set('view engine', 'ejs');
+    app.set('views', path.join(__dirname, 'views'));
+    app.use(express.static(path.join(__dirname, 'public')));
+
+    // RESTエンドポイント（必要な場合）
+    app.get('/', (req, res) => {
+      res.render('index');
+    });
+
+    // サーバーの起動
+    const PORT = process.env.PORT || 4000;
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+      console.log(`GraphQL endpoint: http://localhost:${PORT}/graphql`);
+    });
+
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+// Prismaクライアントのクリーンアップ
+process.on('beforeExit', async () => {
+  await prisma.$disconnect();
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
-} catch (error) {
-console.error('Failed to start server:', error);
-process.exit(1);
-}
-}
-
-startServer();
+startServer().catch(console.error);
 
 
 

@@ -8,8 +8,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// typegraphql-prismaジェネレーターを追加
 generator typegraphql {
   provider = "typegraphql-prisma"
+  output   = "../src/generated/type-graphql"
 }
 
 model User {

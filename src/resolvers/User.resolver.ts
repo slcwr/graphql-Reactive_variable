@@ -1,6 +1,6 @@
 // src/resolvers/User.resolver.ts
 import { Resolver, Query, Mutation, Arg, Ctx } from 'type-graphql';
-import { User } from '../schema/types';
+import { User } from '../schema/Types';
 import { PrismaClient } from '@prisma/client';
 
 // コンテキストの型定義

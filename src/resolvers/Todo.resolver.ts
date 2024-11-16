@@ -1,9 +1,7 @@
 // src/resolvers/todo.resolver.ts
-import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
 import { PrismaClient } from '@prisma/client';
-import { Todo } from '../schema/types';
-
-const prisma = new PrismaClient();
+import { Todo } from '../schema/Types';
 
 interface Context {
   prisma: PrismaClient;
@@ -12,39 +10,70 @@ interface Context {
 @Resolver(of => Todo)
 export class TodoResolver {
   @Query(() => [Todo])
-  async todos(): Promise<Todo[]> {
-    return prisma.todo.findMany({
+  async todos(
+    @Ctx() { prisma }: Context
+  ): Promise<Todo[]> {
+    const todos = await prisma.todo.findMany({
       include: {
-        user: true,
-      },
+        user: true
+      }
     });
+
+    // Prismaの結果をGraphQL型に合わせて変換
+    return todos.map(todo => ({
+      ...todo,
+      user: {
+        ...todo.user,
+        todos: [] // 必要に応じて todos を取得
+      }
+    }));
   }
 
   @Query(() => Todo, { nullable: true })
   async todo(
-    @Arg('id', () => Int) id: number
+    @Arg('id', () => Int) id: number,
+    @Ctx() { prisma }: Context
   ): Promise<Todo | null> {
-    return prisma.todo.findUnique({
+    const todo = await prisma.todo.findUnique({
       where: { id },
       include: {
-        user: true,
-      },
+        user: true
+      }
     });
+
+    if (!todo) return null;
+
+    return {
+      ...todo,
+      user: {
+        ...todo.user,
+        todos: [] // 必要に応じて todos を取得
+      }
+    };
   }
 
   @Mutation(() => Todo)
   async createTodo(
     @Arg('description', () => String) description: string,
-    @Arg('userId', () => Int) userId: number
+    @Arg('userId', () => Int) userId: number,
+    @Ctx() { prisma }: Context
   ): Promise<Todo> {
-    return prisma.todo.create({
+    const todo = await prisma.todo.create({
       data: {
         description,
         userId,
       },
       include: {
-        user: true,
-      },
+        user: true
+      }
     });
+
+    return {
+      ...todo,
+      user: {
+        ...todo.user,
+        todos: [] // 必要に応じて todos を取得
+      }
+    };
   }
 }

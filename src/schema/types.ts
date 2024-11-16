@@ -1,35 +1,44 @@
 // src/schema/types.ts
-import { ObjectType, Field, ID, Int } from 'type-graphql';
+import { ObjectType, Field, Int } from 'type-graphql';
 
 @ObjectType()
 export class User {
-  @Field(() => Int)  // IDの型をIntに変更
-  id: number;        // numberに変更
-
-  @Field(() => String)  // 明示的に型を指定
-  username: string;
-
-  @Field(() => String)  // 明示的に型を指定
-  password: string;
-
-  @Field(() => [Todo], { nullable: true })  // 配列の場合
-  todos?: Todo[];
-}
-
-@ObjectType()
-export class Todo {
-  @Field(() => Int)  // IDの型をIntに変更
-  id: number;        // numberに変更
+  @Field(() => Int)
+  id: number;
 
   @Field(() => String)
-  description: string;
+  username: string;
 
-  @Field(() => User)
-  user: User;
+  // passwordはGraphQLスキーマから除外
+  password: string;
+
+  @Field(() => [Todo], { nullable: true })
+  todos?: Todo[];  // オプショナルに変更
 
   @Field(() => Date)
   createdAt: Date;
 
   @Field(() => Date)
   updatedAt: Date;
+}
+
+@ObjectType()
+export class Todo {
+  @Field(() => Int)
+  id: number;
+
+  @Field(() => String)
+  description: string;
+
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Field(() => Date)
+  updatedAt: Date;
+
+  @Field(() => Int)
+  userId: number;
+
+  @Field(() => User)
+  user: User;
 }

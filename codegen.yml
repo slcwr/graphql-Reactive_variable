@@ -1,0 +1,13 @@
+# codegen.yml
+schema: "http://localhost:4000/graphql"  # GraphQLサーバーのエンドポイント
+documents: "src/**/*.graphql"  # クエリファイルの場所
+generates:
+  src/generated/graphql.ts:  # 生成されるファイルの場所
+    plugins:
+      - "typescript"  # TypeScript型定義
+      - "typescript-operations"  # クエリ/ミューテーション操作の型
+      - "typescript-react-apollo"  # React Hooksの生成
+    config:
+      withHooks: true  # React Hooksを生成
+      withComponent: false  # Reactコンポーネントは生成しない
+      withHOC: false  # Higher Order Componentsは生成しない

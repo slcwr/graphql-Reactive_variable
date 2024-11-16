@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
@@ -69,6 +70,10 @@ async function startServer() {
         }),
       })
     );
+
+    app.listen(4000, () => {
+      console.log('Server running at http://localhost:4000/graphql');
+    });
 
     // 静的ファイルとビューの設定
     app.set('view engine', 'ejs');

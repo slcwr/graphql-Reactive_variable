@@ -5,10 +5,14 @@ import { Todo } from '../schema/types';
 
 const prisma = new PrismaClient();
 
-@Resolver(Todo)
+interface Context {
+  prisma: PrismaClient;
+}
+
+@Resolver(of => Todo)
 export class TodoResolver {
   @Query(() => [Todo])
-  async todos() {
+  async todos(): Promise<Todo[]> {
     return prisma.todo.findMany({
       include: {
         user: true,
@@ -17,7 +21,9 @@ export class TodoResolver {
   }
 
   @Query(() => Todo, { nullable: true })
-  async todo(@Arg('id', () => Int) id: number) {
+  async todo(
+    @Arg('id', () => Int) id: number
+  ): Promise<Todo | null> {
     return prisma.todo.findUnique({
       where: { id },
       include: {
@@ -28,9 +34,9 @@ export class TodoResolver {
 
   @Mutation(() => Todo)
   async createTodo(
-    @Arg('description') description: string,
-    @Arg('userId', () => Int) userId: number,
-  ) {
+    @Arg('description', () => String) description: string,
+    @Arg('userId', () => Int) userId: number
+  ): Promise<Todo> {
     return prisma.todo.create({
       data: {
         description,

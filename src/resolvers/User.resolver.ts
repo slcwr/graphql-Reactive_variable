@@ -1,36 +1,33 @@
-// src/resolvers/user.resolver.ts
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
-import { PrismaClient } from '@prisma/client';
+// src/resolvers/User.resolver.ts
+import { Resolver, Query, Mutation, Arg, Ctx } from 'type-graphql';
 import { User } from '../schema/types';
-import * as bcrypt from 'bcrypt';
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+// コンテキストの型定義
+interface Context {
+  prisma: PrismaClient;
+}
 
-@Resolver(User)
+@Resolver(of => User)
 export class UserResolver {
   @Query(() => [User])
-  async users() {
-    return prisma.user.findMany({
-      include: {
-        todos: true,
-      },
-    });
+  async users(
+    @Ctx() { prisma }: Context  // コンテキストからPrismaクライアントを取得
+  ): Promise<User[]> {
+    return prisma.user.findMany();
   }
 
   @Mutation(() => User)
   async createUser(
-    @Arg('username') username: string,
-    @Arg('password') password: string,
-  ) {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    @Arg('username', () => String) username: string,
+    @Arg('password', () => String) password: string,
+    @Ctx() { prisma }: Context  // コンテキストからPrismaクライアントを取得
+  ): Promise<User> {
     return prisma.user.create({
       data: {
         username,
-        password: hashedPassword,
-      },
-      include: {
-        todos: true,
-      },
+        password
+      }
     });
   }
 }

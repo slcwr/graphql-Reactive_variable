@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "ES2018",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": ["ES2018", "ESNext.AsyncIterable"],
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "outDir": "backend/dist",
+    "strict": true,
+    "baseUrl": "backend/src",
+    "paths": {
+      "*": ["*"],
+    "typeRoots": ["backend/node_modules/@types", "backend/src/@types"],
+    "types": ["cookie-parser"]
+    },
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
+}

@@ -38,10 +38,11 @@ export class UserResolver {
     @Arg('password', () => String) password: string,
     @Ctx() { prisma }: Context  // コンテキストからPrismaクライアントを取得
   ): Promise<User> {
+    const hashedPassword = await bcrypt.hash(password, 10);
     return prisma.user.create({
       data: {
         username,
-        password
+        password: hashedPassword
       }
     });
   }

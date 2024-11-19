@@ -3,6 +3,42 @@ import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
 import { PrismaClient } from '@prisma/client';
 import { Todo } from '../schema/Types';
 
+const typeDefs = `#graphql
+  type User {
+    id: Int!
+    username: String!
+    password: String!
+    todos: [Todo!]!
+    createdAt: String
+    updatedAt: String
+  }
+
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
+  type Todo {
+    id: Int!
+    description: String!
+    user: User!
+  }
+
+  type Query {
+    users: [User!]!
+    todos: [Todo!]!
+    user(id: Int!): User
+  }
+
+  type Mutation {
+    login(username: String!, password: String!): AuthPayload!
+    createUser(username: String!, password: String!): User!
+    updateUser(id: Int!, username: String, password: String): User!
+    deleteUser(id: Int!): User!
+    createTodo(description: String!, userId: Int!): Todo!
+  }
+`;
+
 interface Context {
   prisma: PrismaClient;
 }

@@ -39,13 +39,17 @@ export const DELETE_USER = gql`
 `;
 
 // ユーザー認証（ログイン）
-export const LOGIN_USER = gql`
-  mutation LoginUser($username: String!, $password: String!) {
+export const LOGIN_MUTATION = gql`
+  mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       token
       user {
         id
         username
+         todos {
+          id
+          description
+        }
       }
     }
   }

@@ -8,7 +8,7 @@
     "lib": ["ES2018", "ESNext.AsyncIterable"],
     "esModuleInterop": true,
     "sourceMap": true,
-    "outDir": "backend/dist",
+    "outDir": "./dist",
     "strict": true,
     "baseUrl": "backend/src",
     "paths": {

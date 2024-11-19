@@ -2,7 +2,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist",
+    "build:clean": "rm -rf dist && tsc",
+    "watch": "tsc --watch",
     "lint": "eslint . --ext .ts",
     "start": "tsx watch src/index.ts",
     "dev": "tsx watch src/index.ts",

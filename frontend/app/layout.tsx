@@ -1,8 +1,5 @@
-// app/layout.tsx
-'use client';
-
-import { ApolloProvider } from '@apollo/client';
-import { client } from './lib/apollo-client';
+// src/app/layout.tsx
+import { Providers } from './providers';
 
 export default function RootLayout({
   children,
@@ -12,9 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ApolloProvider client={client}>
+        <Providers>
           {children}
-        </ApolloProvider>
+        </Providers>
       </body>
     </html>
   );

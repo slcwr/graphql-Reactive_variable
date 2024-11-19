@@ -11,12 +11,14 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { authMiddleware, AuthenticatedRequest } from './middleware/auth.js';
 
+
 // Resolversのインポート
 import { UserResolver } from './resolvers/User.resolver.js';
 import { TodoResolver } from './resolvers/Todo.resolver.js';
 
 // Prismaクライアントのインスタンス化
 const prisma = new PrismaClient();
+
 
 // Context型の定義
 interface Context {
@@ -31,6 +33,7 @@ async function startServer() {
     const app = express();
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
+    
 
     // ミドルウェアの設定
     app.use(cors({

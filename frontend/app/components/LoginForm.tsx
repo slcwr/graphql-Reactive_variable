@@ -4,9 +4,11 @@
 import React from "react";
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../../graphql/mutations/user';
+import { LOGIN_MUTATION } from '../../graphql/mutations/user';
+import { useRouter } from 'next/navigation'; 
 
 import styled from 'styled-components';
+
 
 const Form = styled.form`
   display: flex;
@@ -41,28 +43,44 @@ const ErrorMessage = styled.div`
 `;
 
 export function LoginForm() {
+    const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-  
-    const [login, { loading }] = useMutation(LOGIN_USER, {
+    const [error, setError] = useState('');
+    
+    const [loginMutation, { loading }] = useMutation(LOGIN_MUTATION, {
       onCompleted: (data) => {
-        // トークンの保存とリダイレクトなどの処理
-        localStorage.setItem('token', data.login.token);
-        // ユーザー情報の保存やリダイレクトなどの処理
+        if (data.login?.token) {
+          localStorage.setItem('token', data.login.token);
+          router.push('/todo?success=true');
+        }
       },
+      onError: (error) => {
+        console.error('Login error:', error);
+        setError(error.message);
+      }
     });
   
+
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
+      setError(''); // エラーメッセージをリセット
+  
       try {
-        await login({
+        const { data } = await loginMutation({
           variables: {
             username,
             password,
           },
         });
+  
+        if (data?.login?.token) {
+          localStorage.setItem('token', data.login.token);
+          router.push('/todo?success=true');
+        }
       } catch (err) {
         console.error('Login error:', err);
+        setError(err instanceof Error ? err.message : 'ログインに失敗しました');
       }
     };
   

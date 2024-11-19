@@ -16,19 +16,19 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
 __decorate([
-    Field(),
+    Field(() => String),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([
-    Field(() => [Todo]),
+    Field(() => [Todo], { nullable: true }),
     __metadata("design:type", Array)
 ], User.prototype, "todos", void 0);
 __decorate([
-    Field(),
+    Field(() => Date),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);
 __decorate([
-    Field(),
+    Field(() => Date),
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);
 User = __decorate([
@@ -42,15 +42,15 @@ __decorate([
     __metadata("design:type", Number)
 ], Todo.prototype, "id", void 0);
 __decorate([
-    Field(),
+    Field(() => String),
     __metadata("design:type", String)
 ], Todo.prototype, "description", void 0);
 __decorate([
-    Field(),
+    Field(() => Date),
     __metadata("design:type", Date)
 ], Todo.prototype, "createdAt", void 0);
 __decorate([
-    Field(),
+    Field(() => Date),
     __metadata("design:type", Date)
 ], Todo.prototype, "updatedAt", void 0);
 __decorate([
@@ -65,4 +65,4 @@ Todo = __decorate([
     ObjectType()
 ], Todo);
 export { Todo };
-//# sourceMappingURL=types.js.map
+//# sourceMappingURL=Types.js.map

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
@@ -9,8 +10,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 // Resolversのインポート
-import { UserResolver } from './resolvers/User.resolver';
-import { TodoResolver } from './resolvers/Todo.resolver';
+import { UserResolver } from './resolvers/User.resolver.js';
+import { TodoResolver } from './resolvers/Todo.resolver.js';
 // Prismaクライアントのインスタンス化
 const prisma = new PrismaClient();
 async function startServer() {
@@ -50,6 +51,9 @@ async function startServer() {
                 res,
             }),
         }));
+        app.listen(() => {
+            console.log('Server running at http://localhost:4001/graphql');
+        });
         // 静的ファイルとビューの設定
         app.set('view engine', 'ejs');
         app.set('views', path.join(__dirname, 'views'));
@@ -59,7 +63,7 @@ async function startServer() {
             res.render('index');
         });
         // サーバーの起動
-        const PORT = process.env.PORT || 4000;
+        const PORT = process.env.PORT || 4001;
         app.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
             console.log(`GraphQL endpoint: http://localhost:${PORT}/graphql`);

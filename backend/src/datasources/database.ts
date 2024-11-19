@@ -1,6 +1,8 @@
 // src/datasources/database.ts
 import { RESTDataSource } from '@apollo/datasource-rest';
 import { PrismaClient, User } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 // 入力データの型定義
 interface CreateUserInput {
@@ -33,6 +35,28 @@ export class DatabaseSource extends RESTDataSource {
         password: data.password
       }
     });
+  }
+
+
+  async loginUser(username: string, password: string): Promise<{ user: User; token: string } | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { username }
+    });
+  
+    if (!user) return null;
+  
+    // パスワードの検証
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) return null;
+  
+    // JWTトークンの生成
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      process.env.JWT_SECRET!,
+      { expiresIn: '24h' }
+    );
+  
+    return { user, token };
   }
 
   // Todoに関するメソッドも追加

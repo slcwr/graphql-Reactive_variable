@@ -11,61 +11,86 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 // src/resolvers/todo.resolver.ts
-import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
-import { PrismaClient } from '@prisma/client';
-import { Todo } from '../schema/types';
-const prisma = new PrismaClient();
+import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
+import { Todo } from '../schema/Types';
 let TodoResolver = class TodoResolver {
-    async todos() {
-        return prisma.todo.findMany({
+    async todos({ prisma }) {
+        const todos = await prisma.todo.findMany({
             include: {
-                user: true,
-            },
+                user: true
+            }
         });
+        // Prismaの結果をGraphQL型に合わせて変換
+        return todos.map(todo => ({
+            ...todo,
+            user: {
+                ...todo.user,
+                todos: [] // 必要に応じて todos を取得
+            }
+        }));
     }
-    async todo(id) {
-        return prisma.todo.findUnique({
+    async todo(id, { prisma }) {
+        const todo = await prisma.todo.findUnique({
             where: { id },
             include: {
-                user: true,
-            },
+                user: true
+            }
         });
+        if (!todo)
+            return null;
+        return {
+            ...todo,
+            user: {
+                ...todo.user,
+                todos: [] // 必要に応じて todos を取得
+            }
+        };
     }
-    async createTodo(description, userId) {
-        return prisma.todo.create({
+    async createTodo(description, userId, { prisma }) {
+        const todo = await prisma.todo.create({
             data: {
                 description,
                 userId,
             },
             include: {
-                user: true,
-            },
+                user: true
+            }
         });
+        return {
+            ...todo,
+            user: {
+                ...todo.user,
+                todos: [] // 必要に応じて todos を取得
+            }
+        };
     }
 };
 __decorate([
     Query(() => [Todo]),
+    __param(0, Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TodoResolver.prototype, "todos", null);
 __decorate([
     Query(() => Todo, { nullable: true }),
     __param(0, Arg('id', () => Int)),
+    __param(1, Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], TodoResolver.prototype, "todo", null);
 __decorate([
     Mutation(() => Todo),
-    __param(0, Arg('description')),
+    __param(0, Arg('description', () => String)),
     __param(1, Arg('userId', () => Int)),
+    __param(2, Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", Promise)
 ], TodoResolver.prototype, "createTodo", null);
 TodoResolver = __decorate([
-    Resolver(Todo)
+    Resolver(of => Todo)
 ], TodoResolver);
 export { TodoResolver };
 //# sourceMappingURL=Todo.resolver.js.map

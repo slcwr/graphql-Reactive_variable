@@ -51,8 +51,8 @@ export function UserForm() {
       setError('');
     },
     onError: (error) => {
-      console.log('GraphQL response:', error.networkError); // ネットワークエラーの詳細
-      console.log('GraphQL errors:', error.graphQLErrors); // GraphQLエラーの詳細
+      console.error('Login error:', error);
+      setError(error.message);
     },
   });
 

@@ -10,49 +10,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-// src/resolvers/user.resolver.ts
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
-import { PrismaClient } from '@prisma/client';
-import { User } from '../schema/types';
-import * as bcrypt from 'bcrypt';
-const prisma = new PrismaClient();
+// src/resolvers/User.resolver.ts
+import { Resolver, Query, Mutation, Arg, Ctx } from 'type-graphql';
+import { User } from '../schema/Types';
 let UserResolver = class UserResolver {
-    async users() {
-        return prisma.user.findMany({
-            include: {
-                todos: true,
-            },
-        });
+    async users({ prisma } // コンテキストからPrismaクライアントを取得
+    ) {
+        return prisma.user.findMany();
     }
-    async createUser(username, password) {
-        const hashedPassword = await bcrypt.hash(password, 10);
+    async createUser(username, password, { prisma } // コンテキストからPrismaクライアントを取得
+    ) {
         return prisma.user.create({
             data: {
                 username,
-                password: hashedPassword,
-            },
-            include: {
-                todos: true,
-            },
+                password
+            }
         });
     }
 };
 __decorate([
     Query(() => [User]),
+    __param(0, Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "users", null);
 __decorate([
     Mutation(() => User),
-    __param(0, Arg('username')),
-    __param(1, Arg('password')),
+    __param(0, Arg('username', () => String)),
+    __param(1, Arg('password', () => String)),
+    __param(2, Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "createUser", null);
 UserResolver = __decorate([
-    Resolver(User)
+    Resolver(of => User)
 ], UserResolver);
 export { UserResolver };
 //# sourceMappingURL=User.resolver.js.map

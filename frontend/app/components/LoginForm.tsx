@@ -87,12 +87,14 @@ export function LoginForm() {
     return (
       <Form onSubmit={handleSubmit}>
         <Input
+          data-testid="username-input"
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <Input
+          data-testid="password-input"
           type="password"
           placeholder="Password"
           value={password}

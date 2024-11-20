@@ -55,6 +55,31 @@ async function main() {
     }
   });
 
+  // テストユーザーのパスワードをハッシュ化
+  const hashedPassword = await bcrypt.hash('password123', 10);
+
+  // テストユーザーの作成
+  const testUser = await prisma.user.upsert({
+    where: { username: 'testuser' },
+    update: {},
+    create: {
+      username: 'testuser',
+      password: hashedPassword,
+      todos: {
+        create: [
+          { description: 'Testuser todo 1' },
+          { description: 'Testuser todo 2' }
+        ]
+      }
+    },
+    include: {
+      todos: true
+    }
+  });
+
+  console.log({ testUser });
+
+
   console.log('Created users:', { user1, user2 });
   console.log('Seeding finished.');
 }

@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { authMiddleware, AuthenticatedRequest } from './middleware/auth.js';
+import bcrypt from 'bcrypt';
 
 
 // Resolversのインポート
@@ -87,6 +88,33 @@ async function startServer() {
     app.get('/', (req, res) => {
       res.render('index');
     });
+    
+    //ログインテスト
+    if (process.env.NODE_ENV === 'test') {
+      app.post('/test/reset-db', async (req, res) => {
+        try {
+          // データベースのクリーンアップ
+          await prisma.$transaction([
+            prisma.todo.deleteMany(),
+            prisma.user.deleteMany()
+          ]);
+    
+          // テストユーザーの作成
+          const hashedPassword = await bcrypt.hash('password123', 10);
+          const testUser = await prisma.user.create({
+            data: {
+              username: 'testuser',
+              password: hashedPassword
+            }
+          });
+    
+          res.json({ message: 'Database reset successful', user: testUser });
+        } catch (error) {
+          console.error('Database reset error:', error);
+          res.status(500).json({ error: 'Database reset failed' });
+        }
+      });
+    }
 
     // サーバーの起動
     const PORT = process.env.PORT || 4001;

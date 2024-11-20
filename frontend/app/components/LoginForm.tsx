@@ -76,7 +76,8 @@ export function LoginForm() {
   
         if (data?.login?.token) {
           localStorage.setItem('token', data.login.token);
-          router.push('/todo?success=true');
+          console.log('Stored token:', localStorage.getItem('token'));
+          //router.push('/todo');
         }
       } catch (err) {
         console.error('Login error:', err);
@@ -100,7 +101,7 @@ export function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" data-testid="login-button" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </Button>
       </Form>

@@ -48,13 +48,6 @@ jobs:
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
 
-    #- name: Run backend tests
-      #working-directory: ./backend
-      #run: npm test
-      #env:
-        #DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
-        #JWT_SECRET: test-secret
-
     # フロントエンドのテスト
     - name: Install frontend dependencies
       working-directory: ./frontend

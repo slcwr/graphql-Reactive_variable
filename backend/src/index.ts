@@ -11,6 +11,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { authMiddleware, AuthenticatedRequest } from './middleware/auth.js';
 import bcrypt from 'bcrypt';
+import testRoutes from './routes/test';
+
+
 
 
 // Resolversのインポート
@@ -89,31 +92,9 @@ async function startServer() {
       res.render('index');
     });
     
-    //ログインテスト
-    if (process.env.NODE_ENV === 'test') {
-      app.post('/test/reset-db', async (req, res) => {
-        try {
-          // データベースのクリーンアップ
-          await prisma.$transaction([
-            prisma.todo.deleteMany(),
-            prisma.user.deleteMany()
-          ]);
-    
-          // テストユーザーの作成
-          const hashedPassword = await bcrypt.hash('password123', 10);
-          const testUser = await prisma.user.create({
-            data: {
-              username: 'testuser',
-              password: hashedPassword
-            }
-          });
-    
-          res.json({ message: 'Database reset successful', user: testUser });
-        } catch (error) {
-          console.error('Database reset error:', error);
-          res.status(500).json({ error: 'Database reset failed' });
-        }
-      });
+    // テスト環境でのみテストルートを追加
+    if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+    app.use('/test', testRoutes);
     }
 
     // サーバーの起動

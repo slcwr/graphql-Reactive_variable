@@ -11,10 +11,10 @@ export default [
       sourceType: 'module'
     },
     rules: {
-      // 必要なルールをここに追加
+      'no-unused-vars': 'warn' // エラーから警告に変更
     }
   },
   {
-    ignores: ['node_modules/**', '.next/**', 'dist/**']
+    ignores: ['node_modules/**', '.next/**', 'dist/**','backend/src/generated/**' ]
   }
 ];

@@ -1,12 +1,20 @@
-export default {
-  extends: [
-    'eslint:recommended'
-  ],
-  rules: {},
-  ignores: ['node_modules/**', '.next/**', 'dist/**'],
-  languageOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    parser: '@typescript-eslint/parser'
+import js from '@eslint/js';
+import tsParser from '@typescript-eslint/parser';
+
+export default [
+  js.configs.recommended,
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tsParser,
+      ecmaVersion: 'latest',
+      sourceType: 'module'
+    },
+    rules: {
+      // 必要なルールをここに追加
+    }
+  },
+  {
+    ignores: ['node_modules/**', '.next/**', 'dist/**']
   }
-};
+];

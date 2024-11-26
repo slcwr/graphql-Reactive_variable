@@ -1,5 +1,4 @@
-// eslint.config.js
-module.exports = {
+export default {
   extends: [
     'eslint:recommended'
   ],

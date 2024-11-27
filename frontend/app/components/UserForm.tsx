@@ -1,42 +1,15 @@
 // src/components/UserForm.tsx
 'use client';
 
+import React from "react";
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../../graphql/mutations/user';
-import styled from 'styled-components';
+import { Form } from "../components/molecules/Form/Form";
+import { Input } from "../components/input/input";
+import { Button } from "../components/atoms/button/button";
+import { ErrorMessage } from "../components/atoms/ErrorMessage/ErrorMessage";
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 400px;
-  margin: 0 auto;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0051a2;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  margin-top: 0.5rem;
-`;
 
 export function UserForm() {
   const [username, setUsername] = useState('');

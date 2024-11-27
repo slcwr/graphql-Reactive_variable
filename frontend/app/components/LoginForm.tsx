@@ -6,55 +6,27 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../../graphql/mutations/user';
 import { useRouter } from 'next/navigation'; 
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { Button } from "../components/atoms/button/button";
+import { ErrorMessage } from "../components/atoms/ErrorMessage/ErrorMessage";
+import { Input } from "../components/input/input";
+import { Form } from "../components/molecules/Form/Form";
 
-import styled from 'styled-components';
-
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 400px;
-  margin: 0 auto;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0051a2;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  margin-top: 0.5rem;
-`;
 
 export function LoginForm() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const { saveToken, getToken } = useLocalStorage();
     
     const [loginMutation, { loading }] = useMutation(LOGIN_MUTATION, {
-      onCompleted: (data) => {
-        if (data.login?.token) {
-          localStorage.setItem('token', data.login.token);
-          router.push('/todo?success=true');
-        }
-      },
+        onCompleted: (data) => {
+            if (data.login?.token) {
+                saveToken(data.login.token);
+                router.push('/todo?success=true');
+            }
+        },
       onError: (error) => {
         console.error('Login error:', error);
         setError(error.message);
@@ -75,8 +47,8 @@ export function LoginForm() {
         });
   
         if (data?.login?.token) {
-          localStorage.setItem('token', data.login.token);
-          console.log('Stored token:', localStorage.getItem('token'));
+          saveToken(data.login.token);
+          console.log('Stored token:', getToken());
           //router.push('/todo');
         }
       } catch (err) {
@@ -104,6 +76,12 @@ export function LoginForm() {
         <Button type="submit" data-testid="login-button" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </Button>
+
+        {error && ( 
+                <ErrorMessage>
+                    {error}
+                </ErrorMessage>
+            )}
       </Form>
     );
   }

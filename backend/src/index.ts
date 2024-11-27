@@ -9,8 +9,8 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { authMiddleware, AuthenticatedRequest } from './middleware/auth.js';
-import bcrypt from 'bcrypt';
+import { AuthenticatedRequest } from './middleware/auth.js';
+//import bcrypt from 'bcrypt';
 import testRoutes from './routes/test';
 
 

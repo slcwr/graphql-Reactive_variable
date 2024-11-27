@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import testRoutes from './routes/test';
 // Resolversのインポート
 import { UserResolver } from './resolvers/User.resolver.js';
 import { TodoResolver } from './resolvers/Todo.resolver.js';
@@ -62,6 +63,10 @@ async function startServer() {
         app.get('/', (req, res) => {
             res.render('index');
         });
+        // テスト環境でのみテストルートを追加
+        if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+            app.use('/test', testRoutes);
+        }
         // サーバーの起動
         const PORT = process.env.PORT || 4001;
         app.listen(PORT, () => {

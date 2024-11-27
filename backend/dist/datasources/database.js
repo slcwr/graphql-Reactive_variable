@@ -3,6 +3,8 @@ import { RESTDataSource } from '@apollo/datasource-rest';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+config();
 export class DatabaseSource extends RESTDataSource {
     constructor() {
         super();

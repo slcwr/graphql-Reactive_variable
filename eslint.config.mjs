@@ -8,13 +8,22 @@ export default [
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 'latest',
-      sourceType: 'module'
+      sourceType: 'module',
+      globals: {
+        console: true,
+        process: true,
+        window:  true
+      }
     },
     rules: {
-      'no-unused-vars': 'warn' // エラーから警告に変更
+      'no-unused-vars': ['warn', { 
+        varsIgnorePattern: '^_',
+        argsIgnorePattern: '^_',
+        ignoreRestSiblings: true
+      }]
     }
   },
   {
-    ignores: ['node_modules/**', '.next/**', 'dist/**','backend/src/generated/**' ]
+    ignores: ['node_modules/**', '.next/**', 'backend/src/generated/**','**/*.d.ts','backend/dist/**' ]
   }
 ];

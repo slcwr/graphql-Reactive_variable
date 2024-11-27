@@ -20,7 +20,7 @@ class AuthPayload {
   user!: User;
 }
 
-@Resolver(of => User)
+@Resolver(() => User)
 export class UserResolver {
   // AuthPayload型の定義
 

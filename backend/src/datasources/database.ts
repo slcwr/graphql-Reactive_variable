@@ -3,6 +3,15 @@ import { RESTDataSource } from '@apollo/datasource-rest';
 import { PrismaClient, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+config();
+
+declare const process: {
+  env: {
+    JWT_SECRET: string;
+    [key: string]: string | undefined;
+  };
+};
 
 // 入力データの型定義
 interface CreateUserInput {

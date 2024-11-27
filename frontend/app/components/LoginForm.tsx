@@ -11,6 +11,8 @@ import { Button } from "../components/atoms/button/button";
 import { ErrorMessage } from "../components/atoms/ErrorMessage/ErrorMessage";
 import { Input } from "../components/input/input";
 import { Form } from "../components/molecules/Form/Form";
+import { Container } from "../components/atoms/Container/Container";
+
 
 
 export function LoginForm() {
@@ -58,6 +60,7 @@ export function LoginForm() {
     };
   
     return (
+      <Container>
       <Form onSubmit={handleSubmit}>
         <Input
           data-testid="username-input"
@@ -83,5 +86,6 @@ export function LoginForm() {
                 </ErrorMessage>
             )}
       </Form>
+      </Container>
     );
   }

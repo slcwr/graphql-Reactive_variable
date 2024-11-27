@@ -1,11 +1,12 @@
 'use client';
 
 import { LoginForm } from '../components/LoginForm';
+import { Title } from "../components/atoms/Title/Title";
 
 export default function LoginPage() {
   return (
     <div>
-      <h1>Login</h1>
+      <Title>Login</Title>
       <LoginForm />
     </div>
   );

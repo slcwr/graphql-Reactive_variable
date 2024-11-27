@@ -6,10 +6,7 @@ export default defineConfig({
     baseUrl: 'http://localhost:3000',
     screenshotOnRunFailure: false,
     // Dockerでの実行時の設定
-    chromeWebSecurity: false,
-    setupNodeEvents(on, config) {
-      // Cypressのイベント設定
-    },
+    chromeWebSecurity: false
   },
   env: {
     apiUrl: 'http://localhost:4001/graphql',

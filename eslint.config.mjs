@@ -12,7 +12,8 @@ export default [
       globals: {
         console: true,
         process: true,
-        window:  true
+        window:  true,
+        __dirname: true
       }
     },
     rules: {
@@ -24,6 +25,9 @@ export default [
     }
   },
   {
-    ignores: ['node_modules/**', '.next/**', 'backend/src/generated/**','**/*.d.ts','backend/dist/**' ]
-  }
+    ignores: ['node_modules/**', '.next/**', 'backend/src/generated/**','**/*.d.ts','backend/dist/**','frontend/cypress/**' ]
+  },
+  ...compat.config({
+    extends: ['next/core-web-vitals']
+  })
 ];

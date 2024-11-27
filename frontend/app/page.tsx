@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
 
+
 const TEST_QUERY = gql`
   query TestQuery {
     __typename
@@ -12,7 +13,7 @@ const TEST_QUERY = gql`
 `;
 
 export default function Home() {
-  const { loading, error, data } = useQuery(TEST_QUERY);
+  const { loading, error } = useQuery(TEST_QUERY);
 
   useEffect(() => {
     if (error) {

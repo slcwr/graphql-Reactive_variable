@@ -1,24 +1,18 @@
 // src/app/page.tsx
 'use client';
-
+import React from "react";
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_TODO, GET_TODOS } from '../../graphql/mutations/todo';
+import { Form } from "../components/molecules/Form/Form";
+import { Input } from "../components/input/input";
+import { Button } from "../components/atoms/button/button";
+import { Title } from "../components/atoms/Title/Title";
+import { Container } from "../components/atoms/Container/Container";
 
 
-// スタイル付きコンポーネントの定義
-const Container = styled.div`
-  max-width: 28rem; // max-w-md
-  margin-left: auto;
-  margin-right: auto;
-`;
 
-const Title = styled.h1`
-  font-size: 1.5rem; // text-2xl
-  font-weight: bold;
-  margin-bottom: 1rem; // mb-4
-`;
 
 const TodoList = styled.div`
   margin-bottom: 1rem; // mb-4
@@ -31,30 +25,6 @@ const TodoItem = styled.div`
   border-radius: 0.25rem; // rounded
 `;
 
-const Form = styled.form`
-  display: flex;
-  gap: 0.5rem; // gap-2
-`;
-
-const Input = styled.input`
-  flex: 1; // flex-1
-  padding: 0.5rem; // p-2
-  border: 1px solid #e5e7eb;
-  border-radius: 0.25rem; // rounded
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem; // px-4 py-2
-  background-color: #3b82f6; // bg-blue-500
-  color: white;
-  border-radius: 0.25rem; // rounded
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #2563eb; // hover:bg-blue-600
-  }
-`;
 
 interface Todo {
   id: number;

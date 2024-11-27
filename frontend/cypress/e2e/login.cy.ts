@@ -1,4 +1,4 @@
-// cypress/e2e/login.cy.ts
+/// <reference types="cypress" />
 import { mocks } from '../../tests/mocks/handlers';
 
 describe('ログインテスト', () => {

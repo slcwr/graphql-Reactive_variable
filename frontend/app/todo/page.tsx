@@ -12,8 +12,6 @@ import  Title  from "../components/atoms/Title/Title";
 import  Container  from "../components/atoms/Container/Container";
 
 
-
-
 const TodoList = styled.div`
   margin-bottom: 1rem; // mb-4
 `;

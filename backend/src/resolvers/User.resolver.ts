@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 
 // コンテキストの型定義
 interface Context {
-  prisma: PrismaClient;
+  prisma: PrismaClient
 }
 
 @ObjectType()

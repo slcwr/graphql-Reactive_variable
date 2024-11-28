@@ -27,12 +27,12 @@ const TodoItem = styled.div`
 
 
 interface Todo {
-  id: number;
-  description: string;
+  id: number
+  description: string
   user: {
-    id: number;
-    username: string;
-  };
+    id: number
+    username: string
+  }
 }
 
 export default function Home() {

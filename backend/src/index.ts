@@ -26,9 +26,9 @@ const prisma = new PrismaClient();
 
 // Context型の定義
 interface Context {
-  prisma: PrismaClient;
-  req: AuthenticatedRequest;
-  res: express.Response;
+  prisma: PrismaClient
+  req: AuthenticatedRequest
+  res: express.Response
 }
 
 async function startServer() {

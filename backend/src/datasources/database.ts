@@ -8,15 +8,15 @@ config();
 
 declare const process: {
   env: {
-    JWT_SECRET: string;
-    [key: string]: string | undefined;
-  };
+    JWT_SECRET: string
+    [key: string]: string | undefined
+  }
 };
 
 // 入力データの型定義
 interface CreateUserInput {
   username: string;  // nameからusernameに変更
-  password: string;
+  password: string
 }
 
 export class DatabaseSource extends RESTDataSource {

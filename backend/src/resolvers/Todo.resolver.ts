@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { Todo } from '../schema/Types';
 
 interface Context {
-  prisma: PrismaClient;
+  prisma: PrismaClient
 }
 
 @Resolver(() => Todo)

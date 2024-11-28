@@ -1,6 +1,7 @@
+// Button.tsx
 import styled from 'styled-components';
 
-export const Button = styled.button`
+const Button = styled.button`
   padding: 0.5rem 1rem;
   background-color: #0070f3;
   color: white;
@@ -13,3 +14,4 @@ export const Button = styled.button`
   }
 `;
 
+export default Button;

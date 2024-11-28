@@ -7,11 +7,11 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../../graphql/mutations/user';
 import { useRouter } from 'next/navigation'; 
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { Button } from "../components/atoms/button/button";
-import { ErrorMessage } from "../components/atoms/ErrorMessage/ErrorMessage";
-import { Input } from "../components/input/input";
-import { Form } from "../components/molecules/Form/Form";
-import { Container } from "../components/atoms/Container/Container";
+import Button  from "../components/atoms/Button/Button";
+import ErrorMessage from "../components/atoms/ErrorMessage/ErrorMessage";
+import Input  from "../components/input/input";
+import Form  from "../components/molecules/Form/Form";
+import Container from "../components/atoms/Container/Container";
 
 
 
@@ -67,14 +67,14 @@ export function LoginForm() {
           type="text"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
         />
         <Input
           data-testid="password-input"
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         />
         <Button type="submit" data-testid="login-button" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}

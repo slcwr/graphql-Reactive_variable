@@ -5,11 +5,11 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_TODO, GET_TODOS } from '../../graphql/mutations/todo';
-import { Form } from "../components/molecules/Form/Form";
-import { Input } from "../components/input/input";
-import { Button } from "../components/atoms/button/button";
-import { Title } from "../components/atoms/Title/Title";
-import { Container } from "../components/atoms/Container/Container";
+import  Form  from "../components/molecules/Form/Form";
+import  Input  from "../components/input/input";
+import  Button  from "../components/atoms/Button/Button";
+import  Title  from "../components/atoms/Title/Title";
+import  Container  from "../components/atoms/Container/Container";
 
 
 

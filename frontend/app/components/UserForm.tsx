@@ -5,10 +5,10 @@ import React from "react";
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../../graphql/mutations/user';
-import { Form } from "../components/molecules/Form/Form";
-import { Input } from "../components/input/input";
-import { Button } from "../components/atoms/button/button";
-import { ErrorMessage } from "../components/atoms/ErrorMessage/ErrorMessage";
+import Form from "../components/molecules/Form/Form";
+import Input from "../components/input/input";
+import Button from "../components/atoms/Button/Button";
+import ErrorMessage from "../components/atoms/ErrorMessage/ErrorMessage";
 
 
 export function UserForm() {
@@ -28,6 +28,7 @@ export function UserForm() {
       setError(error.message);
     },
   });
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,14 +50,14 @@ export function UserForm() {
         type="text"
         placeholder="Username"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
         required
       />
       <Input
         type="password"
         placeholder="Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         required
       />
       <Button type="submit" disabled={loading}>

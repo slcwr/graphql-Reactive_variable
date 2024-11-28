@@ -1,7 +1,7 @@
 // src/components/atoms/Title/Title.tsx
 import styled from 'styled-components';
 
-export const Title = styled.h1`
+const Title = styled.h1`
   text-align: center; // 水平方向の中央寄せ
   margin-left: auto;  // 左右のマージンを自動で調整
   margin-right: auto; // 左右のマージンを自動で調整
@@ -9,3 +9,5 @@ export const Title = styled.h1`
   font-weight: bold;
   margin-bottom: 1rem;
 `;
+
+export default Title;

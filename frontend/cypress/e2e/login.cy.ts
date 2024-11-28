@@ -46,7 +46,7 @@ describe('ログインテスト', () => {
         .should('be.visible')
         .and('contain', 'Invalid password');
     });
-  });
+  // });
     //   // エラーメッセージが表示されることを確認
     //   cy.get('[data-testid="error-message"]')
     //     .should('be.visible')

@@ -19,11 +19,11 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        
+
     - name: Install dependencies
       working-directory: ./frontend
       run: |
-          npm install
+          npm ci
           npm install --save-dev @types/react @types/react-dom
           npm install --save-dev @apollo/client
           npm install --save-dev @types/styled-components

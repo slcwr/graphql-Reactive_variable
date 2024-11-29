@@ -15,11 +15,16 @@
 	  }
 	},
 	"features": {
+	  "ghcr.io/devcontainers/features/desktop-lite:1": {
+      "password": "vscode",
+      "webPort": "6080",
+      "vncPort": "5901"
+	  },
 	  "ghcr.io/devcontainers/features/docker-in-docker:2": {},
 	  "ghcr.io/devcontainers/features/node:1": {
     "version": "18"
     },
-	  "ghcr.io/devcontainers-community/npm-features/typescript:1": {
+	"ghcr.io/devcontainers-community/npm-features/typescript:1": {
 		"version": "latest"
 	  }
 	},
@@ -28,7 +33,7 @@
     "DOCKER_HOST": "unix:///var/run/docker.sock"
    },
 
-	"forwardPorts": [3000, 5432],
+	"forwardPorts": [3000, 5432,6080],
 	"postCreateCommand": "npm install",
 	"remoteUser": "node"
   }

@@ -7,5 +7,5 @@
       "esModuleInterop": true,
       "isolatedModules": false
     },
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts", "cypress.config.js"]
   }

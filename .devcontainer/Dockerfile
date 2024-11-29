@@ -12,6 +12,13 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     xauth \
     xvfb \
+    x11vnc \
+    xauth \
+    novnc \
+    fluxbox \
+    dbus-x11 \
+    x11-utils \
+    x11-xserver-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # dockerグループの作成（既に存在する場合は無視）
@@ -27,7 +34,7 @@ WORKDIR /home/node
 USER node
 
 # Install global npm packages
-RUN npm install -g typeorm @types/node ts-node
+RUN sudo npm install -g typeorm @types/node ts-node
 
 # Set the working directory
 WORKDIR /workspaces
@@ -36,7 +43,7 @@ WORKDIR /workspaces
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install ejs\
+RUN sudo npm install ejs\
   express-validator
 
 # Copy the rest of the application code

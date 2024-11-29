@@ -15,11 +15,10 @@
 	  }
 	},
 	"features": {
-	  "ghcr.io/devcontainers/features/desktop-lite:1": {
+	  "desktop-lite": {
       "password": "vscode",
-      "webPort": "6080",
-      "vncPort": "5901"
-	  },
+      "webPort": "6080"
+    },
 	  "ghcr.io/devcontainers/features/docker-in-docker:2": {},
 	  "ghcr.io/devcontainers/features/node:1": {
     "version": "18"

@@ -36,6 +36,22 @@ USER node
 # Install global npm packages
 RUN sudo npm install -g typeorm @types/node ts-node
 
+# アプリケーションのディレクトリに移動
+WORKDIR /workspace/frontend
+
+# Cypressをインストール
+RUN npx cypress install
+
+# アプリケーションのディレクトリに移動
+WORKDIR /workspace/backend
+
+# prisma
+RUN npx prisma generate
+
+# データベースのマイグレーションとシード
+RUN npx prisma migrate deploy
+RUN npx prisma db seed
+
 # Set the working directory
 WORKDIR /workspaces
 

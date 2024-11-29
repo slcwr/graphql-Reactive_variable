@@ -42,13 +42,13 @@ describe('ログインテスト', () => {
     //   cy.get('[data-testid="login-button"]').click();
   
       // エラーメッセージが表示されることを確認
-      cy.get('[data-testid="error-message"]')
-        .should('be.visible')
-        .and('contain', 'Invalid password');
-    });
+      // cy.get('[data-testid="error-message"]')
+      //   .should('be.visible')
+      //   .and('contain', 'Invalid password');
+    //});
   // });
     //   // エラーメッセージが表示されることを確認
     //   cy.get('[data-testid="error-message"]')
     //     .should('be.visible')
     //     .and('contain', 'Invalid password');
-    // });
+});

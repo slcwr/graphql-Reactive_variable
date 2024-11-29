@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "types": ["jest"],
+    "types": [
+      "jest"
+    ],
     "lib": [
       "dom",
       "dom.iterable",
@@ -17,7 +19,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     //"jsx": "preserve",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
     "plugins": [
       {
@@ -36,8 +38,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/**/*"
-, "cypress/cypress.config.js"  ],
+    "src/**/*",
+    "cypress.config.cjs"
+  ],
   "exclude": [
     "node_modules",
     "cypress/**/*"

@@ -1,25 +1,25 @@
 FROM mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm
 
 RUN apt-get update && apt-get install -y \
-    libgtk2.0-0 \
-    libgtk-3-0 \
-    libgbm-dev \
-    libnotify-dev \
-    libgconf-2-4 \
-    libnss3 \
-    libxss1 \
-    libasound2 \
-    libxtst6 \
-    xauth \
-    xvfb \
-    x11vnc \
-    xauth \
-    novnc \
-    fluxbox \
-    dbus-x11 \
-    x11-utils \
-    x11-xserver-utils \
-    && rm -rf /var/lib/apt/lists/*
+  libgtk2.0-0 \
+  libgtk-3-0 \
+  libgbm-dev \
+  libnotify-dev \
+  libgconf-2-4 \
+  libnss3 \
+  libxss1 \
+  libasound2 \
+  libxtst6 \
+  xauth \
+  xvfb \
+  x11vnc \
+  xauth \
+  novnc \
+  fluxbox \
+  dbus-x11 \
+  x11-utils \
+  x11-xserver-utils \
+  && rm -rf /var/lib/apt/lists/*
 
 # dockerグループの作成（既に存在する場合は無視）
 RUN groupadd -f docker

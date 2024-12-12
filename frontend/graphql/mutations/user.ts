@@ -54,3 +54,10 @@ export const LOGIN_MUTATION = gql`
     }
   }
 `;
+
+export const GET_AUTH_STATUS = gql`
+  query GetAuthStatus {
+    isLoggedIn @client
+    user @client
+  }
+`;

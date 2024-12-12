@@ -12,6 +12,7 @@ import ErrorMessage from "../components/atoms/ErrorMessage/ErrorMessage";
 import Input  from "../components/input/input";
 import Form  from "../components/molecules/Form/Form";
 import Container from "../components/atoms/Container/Container";
+import { useAuth } from '../hooks/useAuth';
 
 
 
@@ -21,11 +22,12 @@ export function LoginForm() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { saveToken, getToken } = useLocalStorage();
-    
+    const { login } = useAuth();
     const [loginMutation, { loading }] = useMutation(LOGIN_MUTATION, {
         onCompleted: (data) => {
             if (data.login?.token) {
                 saveToken(data.login.token);
+                login(data.login.user, data.login.token);
                 router.push('/todo?success=true');
             }
         },
@@ -47,6 +49,7 @@ export function LoginForm() {
             password,
           },
         });
+        login('userId', 'userName');
   
         if (data?.login?.token) {
           saveToken(data.login.token);

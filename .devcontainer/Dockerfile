@@ -46,11 +46,11 @@ RUN npx cypress install
 WORKDIR /workspace/backend
 
 # prisma
-RUN npx prisma generate
+#RUN npx prisma generate
 
 # データベースのマイグレーションとシード
-RUN npx prisma migrate deploy
-RUN npx prisma db seed
+#RUN npx prisma migrate deploy
+#RUN npx prisma db seed
 
 # Set the working directory
 WORKDIR /workspaces

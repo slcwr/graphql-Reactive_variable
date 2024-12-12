@@ -19,10 +19,12 @@
     "@graphql-codegen/typescript": "^4.1.1",
     "@graphql-codegen/typescript-operations": "^4.1.1",
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
+    "@reduxjs/toolkit": "^2.4.0",
     "graphql": "^16.9.0",
     "next": "14.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.1.2",
     "styled-components": "^6.1.13",
     "typescript": "^4.9.5"
   },
